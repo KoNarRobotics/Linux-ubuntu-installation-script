@@ -1,6 +1,6 @@
  #!/bin/bash
 
-if [[ $EUID -e 0 ]]; then
+if [[ $EUID -eq 0 ]]; then
   echo "This script shouldn't be run as root or with sudo it will ask for sudo password when needed only once"
   echo "Exiting..."
   exit 1
@@ -55,17 +55,17 @@ sudo snap install \
 
 #************************************************************************************************************************************************************************************
 #install docker
-sudo apt-get update
+sudo apt-get update -y 
 sudo apt-get install -y ca-certificates curl
-sudo install -m 0755 -d /etc/apt-get/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt-get/keyrings/docker.asc
-sudo chmod a+r /etc/apt-get/keyrings/docker.asc
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
 
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt-get/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt-get/sources.list.d/docker.list > /dev/null
-sudo apt-get update
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update -y
 
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
@@ -74,20 +74,24 @@ sudo docker run hello-world
 # add user to docker group and activate changes
 sudo groupadd docker
 sudo usermod -aG docker $USER
-newgrp docker
-
 upd-ugr
 
 #************************************************************************************************************************************************************************************
 #install ros2
-sudo apt-get install software-properties-common
-sudo add-apt-get-repository universe
+
+sudo apt-get update && sudo apt-get install -y locales
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository universe -y
 
 sudo apt-get update && sudo apt-get install curl -y
 sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt-get/sources.list.d/ros2.list > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
-sudo apt-get update -y
+upd-ugr
 sudo apt-get install ros-humble-ros-base -y
 sudo apt-get install ros-dev-tools -y
 source /opt/ros/humble/setup.bash
