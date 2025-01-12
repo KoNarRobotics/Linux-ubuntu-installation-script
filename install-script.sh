@@ -10,7 +10,7 @@ MAIN_FILE_DIR=$(dirname "$(readlink -f "$0")")
 echo "Script directory: $MAIN_FILE_DIR"
 
 upd-ugr(){
-  sudo apt-get-get update -y && sudo apt-get upgrade -y
+  sudo apt-get update -y && sudo apt-get upgrade -y
 }
 
 
