@@ -27,6 +27,7 @@ sudo apt-get install -y \
     build-essential \
     gdb \
     python3-pip \
+    python3.10-venv
     qbittorrent \
     python3-venv \
     wireguard \
@@ -45,7 +46,11 @@ sudo apt-get install -y \
     ethtool \
     wireshark \
     curl \
-    wakeonlan
+    wakeonlan \
+    ccache \
+    clang \
+    clang-format \
+    clang-tidy 
 
 #************************************************************************************************************************************************************************************
 #install sna[ packages
