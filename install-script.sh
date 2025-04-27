@@ -26,10 +26,7 @@ sudo apt-get install -y \
     git \
     build-essential \
     gdb \
-    python3-pip \
-    python3.10-venv
     qbittorrent \
-    python3-venv \
     wireguard \
     resolvconf \
     nextcloud-desktop \
@@ -50,7 +47,8 @@ sudo apt-get install -y \
     ccache \
     clang \
     clang-format \
-    clang-tidy 
+    clang-tidy \
+    openocd 
 
 #************************************************************************************************************************************************************************************
 #install sna[ packages
@@ -92,12 +90,12 @@ export LANG=en_US.UTF-8
 sudo apt-get install -y software-properties-common
 sudo add-apt-repository universe -y
 
-sudo apt-get update && sudo apt-get install curl -y
+sudo apt update && sudo apt install curl -y
 sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
 upd-ugr
-sudo apt-get install -y ros-humble-desktop ros-humble-ros-base ros-dev-tools
+sudo apt-get install -y ros-jazzy-desktop ros-jazzy-ros-base ros-dev-tools
 source /opt/ros/humble/setup.bash
 
 #************************************************************************************************************************************************************************************
@@ -111,8 +109,8 @@ rm $outfile
 #************************************************************************************************************************************************************************************
 # install kciad
 outfile=$(mktemp)
-sudo add-apt-repository -y ppa:kicad/kicad-8.0-releases
-sudo apt-get update
+sudo add-apt-repository ppa:kicad/kicad-9.0-releases
+sudo apt update
 sudo apt-get install kicad -y
 
 
