@@ -160,6 +160,10 @@ wget https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-
 tar -xf arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi.tar.xz
 mv arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi ~/.local/share/arm-gnu-toolchain-14
 
+sudo apt-get install -y cmake ninja-build clang ccache dfu-util stlink-tools python3-pip python3-venv
+
+
+
 ## PROFILE PATHS
 cat <<'PROFILE_APPEND' >> ~/.profile
 # Add the arm-none-aebi to the path
