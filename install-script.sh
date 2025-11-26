@@ -139,8 +139,8 @@ sudo apt-get autoremove -y
 sudo apt-get autoclean -y
 
 
-echo "
-alias ros_jazzy="source /opt/ros/jazzy/setup.bash"
+## BASH ALIASES
+echo "alias ros_jazzy="source /opt/ros/jazzy/setup.bash"
 alias ros_local="source install/local_setup.bash"
 alias ros_build="colcon build && ros_local"
 alias can_init="sudo ip link set dev can0 up type can bitrate 1000000"
@@ -149,6 +149,7 @@ alias srj="source /opt/ros/jazzy/setup.bash"
 alias srl="source install/setup.bash"
 alias srr="source /opt/ros/jazzy/setup.bash && source install/setup.bash"
 " >> ~/.bashrc
+## BASH ALIASES END
 
 
 #************************************************************************************************************************************************************************************
