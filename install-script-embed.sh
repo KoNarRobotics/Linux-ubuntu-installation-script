@@ -95,6 +95,19 @@ upd-ugr
 # sudo apt-get install -y ros-jazzy-desktop ros-jazzy-ros-base ros-dev-tools
 # source /opt/ros/humble/setup.bash
 
+# ## BASH ALIASES
+# echo "alias ros_jazzy="source /opt/ros/jazzy/setup.bash"
+# alias ros_local="source install/local_setup.bash"
+# alias ros_build="colcon build && ros_local"
+# alias can_init="sudo ip link set dev can0 up type can bitrate 1000000"
+
+# alias srj="source /opt/ros/jazzy/setup.bash"
+# alias srl="source install/setup.bash"
+# alias srr="source /opt/ros/jazzy/setup.bash && source install/setup.bash"
+# " >> ~/.bashrc
+# ## BASH ALIASES END
+
+
 #************************************************************************************************************************************************************************************
 # install vscode
 outfile=$(mktemp)
@@ -139,19 +152,6 @@ sudo apt-get autoremove -y
 sudo apt-get autoclean -y
 
 
-## BASH ALIASES
-echo "alias ros_jazzy="source /opt/ros/jazzy/setup.bash"
-alias ros_local="source install/local_setup.bash"
-alias ros_build="colcon build && ros_local"
-alias can_init="sudo ip link set dev can0 up type can bitrate 1000000"
-
-alias srj="source /opt/ros/jazzy/setup.bash"
-alias srl="source install/setup.bash"
-alias srr="source /opt/ros/jazzy/setup.bash && source install/setup.bash"
-" >> ~/.bashrc
-## BASH ALIASES END
-
-
 ************************************************************************************************************************************************************************************
 configure user groups
 
@@ -160,12 +160,14 @@ wget https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-
 tar -xf arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi.tar.xz
 mv arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi ~/.local/share/arm-gnu-toolchain-14
 
+## PROFILE PATHS
 cat <<'PROFILE_APPEND' >> ~/.profile
 # Add the arm-none-aebi to the path
 if [ -d "$HOME/.local/share/arm-gnu-toolchain-14/bin" ]; then
     PATH="$HOME/.local/share/arm-gnu-toolchain-14/bin:$PATH"
 fi
 PROFILE_APPEND
+## PROFILE PATHS END
 
 source ~/.profile
 rm -rf arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi.tar.xz
