@@ -1,5 +1,5 @@
 # Linux-ubuntu-installation-script
-A handy script that configures a fresh ubuntu 22.04 installation with all the usefull for developer packages and applications.
+A handy script that configures a fresh ubuntu 24.04 installation with all the usefull for developer packages and applications.
 
 # How to use
 1. Clone the repository
