@@ -26,10 +26,8 @@ sudo apt-get install -y \
     git \
     build-essential \
     gdb \
-    qbittorrent \
     wireguard \
     resolvconf \
-    nextcloud-desktop \
     nvtop \
     htop \
     net-tools \
@@ -41,9 +39,7 @@ sudo apt-get install -y \
     libncursesw5 \
     curl \
     ethtool \
-    wireshark \
     curl \
-    wakeonlan \
     ccache \
     clang \
     clang-format \
@@ -91,8 +87,9 @@ sudo apt-get install -y software-properties-common
 sudo add-apt-repository universe -y
 
 sudo apt update && sudo apt install curl -y
-sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')
+curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"
+sudo dpkg -i /tmp/ros2-apt-source.deb
 
 upd-ugr
 sudo apt-get install -y ros-jazzy-desktop ros-jazzy-ros-base ros-dev-tools
@@ -116,11 +113,6 @@ sudo apt-get install kicad -y
 
 
 #************************************************************************************************************************************************************************************
-# install ollama https://ollama.com/
-curl -fsSL https://ollama.com/install.sh | sh
-
-
-#************************************************************************************************************************************************************************************
 # generate ssh-keyrings
 if [ ! -d ~/.ssh/id_ed25519.pub ]; then
   ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519
@@ -132,21 +124,6 @@ fi
 mkdir -p ~/.local/bin
 mkdir -p ~/.local/share
 
-
-
-#************************************************************************************************************************************************************************************
-## install self updaeting discord and install vencord
-# if [ ! -d ~/.local/share/discord-updater ]; then
-#   echo "Installing discord updater"
-#   cd ~/.local/share
-#   git clone https://github.com/X-Lemon-X/discord-updater.git
-#   discord-updater/./updater-discord.sh
-#   CRON_JOB="* */1 * * * $HOME/.local/share/discord-updater/./updater-discord.sh"
-#   (sudo crontab -l | sudo grep -F "$CRON_JOB") || (sudo crontab -l; sudo echo "$CRON_JOB") | sudo crontab -
-# else 
-#   echo "Discord updater already installed in: [$HOME/.local/share/discord-updater]"
-# fi
-
 #************************************************************************************************************************************************************************************
 # install discord
 outfile=$(mktemp)
@@ -156,22 +133,22 @@ rm -rf $outfile
 
 
 #************************************************************************************************************************************************************************************
-# install vencord for discord
-set -e
-outfile=$(mktemp)
-trap 'rm -f "$outfile"' EXIT
-set -- "XDG_CONFIG_HOME=$XDG_CONFIG_HOME"
-curl -sS https://github.com/Vendicated/VencordInstaller/releases/latest/download/VencordInstallerCli-Linux --output "$outfile" --location 
-chmod +x "$outfile"
-sudo env "$@" "$outfile" -install -location /usr/share/discord
-
-
-#************************************************************************************************************************************************************************************
 upd-ugr
 sudo apt-get autoclean -y
 sudo apt-get autoremove -y
 sudo apt-get autoclean -y
 
+
+echo "
+alias ros_jazzy="source /opt/ros/jazzy/setup.bash"
+alias ros_local="source install/local_setup.bash"
+alias ros_build="colcon build && ros_local"
+alias can_init="sudo ip link set dev can0 up type can bitrate 1000000"
+
+alias srj="source /opt/ros/jazzy/setup.bash"
+alias srl="source install/setup.bash"
+alias srr="source /opt/ros/jazzy/setup.bash && source install/setup.bash"
+" >> ~/.bashrc
 
 
 #************************************************************************************************************************************************************************************

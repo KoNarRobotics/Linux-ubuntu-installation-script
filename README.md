@@ -12,11 +12,9 @@ A handy script that configures a fresh ubuntu 22.04 installation with all the us
 5. Enjoy your fresh ubuntu installation
 
 # Software
-- Ros2 Humble
+- Ros2 Jazzy
 - Docker
 - VSCode
 - Discord
-- Vencord (Discord mode)
 - KiCad
-- Ollama
 - and more...
